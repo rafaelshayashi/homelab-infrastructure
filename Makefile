@@ -4,9 +4,11 @@ setup-traefik:
 	sed -i 's/you@example.com/'"${CF_API_EMAIL}"'/g' docker/traefik/data/traefik.yml
 	sed -i 's/local.example.com/'"${DOMAIN}"'/g' docker/traefik/data/config.yml
 	sed -i 's/local.network/'"${LOCAL_DOMAIN}"'/g' docker/traefik/data/config.yml
+	set -i 's/user@example.com/'"${CF_API_EMAIL}"'/g' docker/traefik/data/docker-compose.yml
+	sed -i 's/YOUR_API_TOKEN/'"${CF_DNS_API_TOKEN}"'/g' docker/traefik/data/docker-compose.yml
 
 start-traefik:
-	docker-compose -f docker/traefik/docker-compose.yaml up -d --force-recreate
+	docker-compose -f docker/traefik/docker-compose.yml up -d --force-recreate
 
 start-portainer:
 	docker-compose -f docker/portainer/docker-compose.yaml up -d
