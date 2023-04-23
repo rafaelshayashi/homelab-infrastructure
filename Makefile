@@ -1,4 +1,4 @@
-include docker/traefik/.env.example
+include docker/traefik/.env
 
 setup-traefik:
 	sed -i 's/you@example.com/'"${CF_API_EMAIL}"'/g' docker/traefik/data/traefik.yml

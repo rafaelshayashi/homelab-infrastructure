@@ -22,7 +22,7 @@ http:
     nginx-nodeport:
       entryPoints:
         - "https"
-      rule: "Host(`app.example.com`) && Path(`nginx-nodeport`)"
+      rule: "Host(`app.local.example.com`) && Path(`/nginx-nodeport`)"
       tls: {}
       service: nginx-nodeport
   #endregion
