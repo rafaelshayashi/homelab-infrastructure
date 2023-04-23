@@ -1,5 +1,5 @@
 http:
- #region routers 
+  #region routers 
   routers:
     proxmox:
       entryPoints:
@@ -19,9 +19,14 @@ http:
         - https-redirectscheme
       tls: {}
       service: opnsense
-
-#endregion
-#region services
+    nginx-nodeport:
+      entryPoints:
+        - "https"
+      rule: "Host(`app.example.com`) && Path(`nginx-nodeport`)"
+      tls: {}
+      service: nginx-nodeport
+  #endregion
+  #region services
   services:
     proxmox:
       loadBalancer:
@@ -33,7 +38,12 @@ http:
         servers:
           - url: "https://opnsense.local.network"
         passHostHeader: true
-#endregion
+    nginx-nodeport:
+      loadBalancer:
+        servers:
+          - url: "http://k8s-node-01.local.network:30001"
+        passHostHeader: true
+  #endregion
   middlewares:
     https-redirectscheme:
       redirectScheme:
