@@ -23,6 +23,8 @@ http:
       entryPoints:
         - "https"
       rule: "Host(`app.local.example.com`) && Path(`/nginx-nodeport`)"
+      middlewares:
+        - stripprefix 
       tls: {}
       service: nginx-nodeport
   #endregion
@@ -75,3 +77,8 @@ http:
         middlewares:
         - default-whitelist
         - default-headers
+
+    stripprefix:
+      stripPrefix:
+        prefixes:
+          - "/nginx-nodeport"
