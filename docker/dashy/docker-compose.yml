@@ -17,7 +17,7 @@ services:
       - "traefik.http.routers.dashy.entrypoints=http"
       - "traefik.http.routers.dashy.rule=Host(`dashy.local.example.com`)"
       - "traefik.http.middlewares.dashy-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.dashy.middlewares=portainer-https-redirect"
+      - "traefik.http.routers.dashy.middlewares=dashy-https-redirect"
       - "traefik.http.routers.dashy-secure.entrypoints=https"
       - "traefik.http.routers.dashy-secure.rule=Host(`dashy.local.example.com`)"
       - "traefik.http.routers.dashy-secure.tls=true"

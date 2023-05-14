@@ -13,5 +13,8 @@ start-traefik:
 setup-dashy:
 	sed -i 's/local.example.com/'"${DOMAIN}"'/g' docker/dashy/docker-compose.yml
 
+start-traefik:
+	docker-compose -f docker/dashy/docker-compose.yml up -d --force-recreate
+
 start-portainer:
 	docker-compose -f docker/portainer/docker-compose.yaml up -d
