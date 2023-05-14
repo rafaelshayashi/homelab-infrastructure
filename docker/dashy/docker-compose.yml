@@ -9,6 +9,8 @@ services:
     # Set any environmental variables
     environment:
       - NODE_ENV=production
+    networks:
+      - proxy
     # Specify restart policy
     restart: unless-stopped
     # Defined trafik label
@@ -31,3 +33,4 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+
