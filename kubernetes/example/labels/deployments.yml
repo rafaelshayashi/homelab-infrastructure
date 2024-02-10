@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sandbox
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sandbox
+  labels:
+    app: web-nginx
+    tier: dev
+  name: web-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-nginx
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: web-nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {} 
