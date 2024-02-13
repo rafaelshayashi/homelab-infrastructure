@@ -1,0 +1,67 @@
+---
+- name: Update os
+  hosts: servers
+  become: true
+
+  tasks:
+  - name: Update all packages to their latest version
+    ansible.builtin.apt:
+      name: "*"
+      state: latest
+
+  - name: Upgrade the OS (apt-get dist-upgrade)
+    ansible.builtin.apt:
+      upgrade: dist
+
+  # more info https://stackoverflow.com/questions/71585303/how-can-i-manage-keyring-files-in-trusted-gpg-d-with-ansible-playbook-since-apt
+  - name: Add Example GPG key for the kubernetes
+    ansible.builtin.get_url:
+      url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
+      dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
+      mode: '0644'
+      force: true
+
+  - name: Add kubernetes repository into sources list
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.asc] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /
+      state: present
+
+  - name: Add Example GPG key for the containerd
+    ansible.builtin.get_url:
+      url: https://download.docker.com/linux/debian/gpg
+      dest: /etc/apt/trusted.gpg.d/debian.asc
+      mode: '0644'
+      force: true
+
+  - name: Add containerd repository into sources list
+    ansible.builtin.apt_repository:
+      repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/debian.asc] https://download.docker.com/linux/debian bookworm stable
+      state: present
+
+  - name: Install a list of packages
+    ansible.builtin.apt:
+      pkg:
+      - kubelet
+      - kubeadm
+      - kubectl
+      - containerd.io
+
+  - name: Hold kubelet
+    ansible.builtin.dpkg_selections:
+      name: kubelet
+      selection: hold
+
+  - name: Hold kubeadm
+    ansible.builtin.dpkg_selections:
+      name: kubeadm
+      selection: hold
+
+  - name: Hold kubectl
+    ansible.builtin.dpkg_selections:
+      name: kubectl
+      selection: hold
+
+  - name: Hold containerd.io
+    ansible.builtin.dpkg_selections:
+      name: containerd.io
+      selection: hold
