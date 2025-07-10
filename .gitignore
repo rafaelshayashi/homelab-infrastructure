@@ -1,2 +1,5 @@
 
 docker/PoC
+
+kubernetes/automation/inventory.yaml
+kubernetes/automation/.env

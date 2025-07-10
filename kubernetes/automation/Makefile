@@ -1,10 +1,32 @@
 
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+else
+	export REMOTE_USER=?$(USER)
+endif
+
+run:
+	run-install run-config run-enable
 
 run-install:
-	ansible-playbook -K -i inventory.cfg install.yaml
+ifdef REMOTE_USER
+	ansible-playbook --user $(REMOTE_USER) --inventory inventory.yaml install.yaml
+else
+	$(error the REMOTE_USER should be defined)
+endif
+
 
 run-config:
-	ansible-playbook -K -i inventory.cfg config.yaml
+ifdef REMOTE_USER
+	ansible-playbook --user $(REMOTE_USER) --inventory inventory.yaml config.yaml
+else
+	$(error the REMOTE_USER should be defined)
+endif
 
 run-enable:
-	ansible-playbook -K -i inventory.cfg enable.yaml
+ifdef REMOTE_USER
+	ansible-playbook --user $(REMOTE_USER) --inventory inventory.yaml enable.yaml
+else
+	$(error the REMOTE_USER should be defined)
+endif
