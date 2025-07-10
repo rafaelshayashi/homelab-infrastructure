@@ -1,5 +1,5 @@
 ---
-- name: Update os
+- name: Configure os
   hosts: servers
   become: true
 
