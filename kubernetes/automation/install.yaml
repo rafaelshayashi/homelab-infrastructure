@@ -1,5 +1,5 @@
 ---
-- name: Update os
+- name: Install the required components
   hosts: servers
   become: true
 
@@ -45,6 +45,7 @@
       - kubeadm
       - kubectl
       - containerd.io
+      - qemu-guest-agent
 
   - name: Hold kubelet
     ansible.builtin.dpkg_selections:
