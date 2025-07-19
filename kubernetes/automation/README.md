@@ -10,8 +10,8 @@ First, you'll need to create the configuration file for the target servers in th
 ```yaml
 server:
   hosts:
-    k8s-cp-01.domain.com
-    k8s-node-01.domain.com
+    k8s-cp-01.domain.com:
+    k8s-node-01.domain.com:
 ```
 
 ```bash
@@ -24,9 +24,8 @@ make run-config
 make run-enable
 ```
 
-
 ssh into the control pane
 
-```
+```bash
 sudo kubeadm config images pull
 ```
