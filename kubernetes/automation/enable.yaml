@@ -16,3 +16,7 @@
       name: containerd
       state: started
       enabled: true
+
+  - name: Enable qemu agent
+    ansible.builtin.systemd_service:
+      name: qemu-guest-agent.service
